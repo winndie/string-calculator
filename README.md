@@ -4,10 +4,12 @@
 Visual Studio 2022 version 17.8 or higher
 
 I. Clone this repository onto your machine
+
 II. Install
 ```
 press Ctrl + Shift + B in visual studio
 ```
+
 III. Run
 ```
 press F5 in visual studio
