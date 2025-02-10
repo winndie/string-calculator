@@ -2,9 +2,58 @@ namespace StringCalculator
 {
     public class StringCalculator
     {
+        private char[] _delimiters = new char[] { ',', (char)10 };
+        private char[] Delimiters
+        {
+            get { return _delimiters; }
+            set
+            {
+                _delimiters = value.Select(x =>
+                {
+                    if (Char.IsDigit(x))
+                    {
+                        throw new Exception();
+                    }
+                    return Char.ToLower(x);
+                }).ToArray();
+            }
+        }
+        private string DelimitersStart { get; set; } = "//";
+        private string DelimitersEnd { get; set; } = "\n";
+        private bool IsSuccess { get; set; } = true;
+        private string Error { get; set; } = "";
+
+        private readonly int MaxValue = 1000;
+
+        private readonly int MinValue = 0;
+
+        private Dictionary<string, string> Errors = new Dictionary<string, string>
+        {
+            {"Negatives","Negatives not allowed:"},
+            {"Invalid input","Invalid input"},
+        };
+        private int GetInteger(int number)
+        {
+            if (number < MinValue)
+            {
+                if (this.IsSuccess)
+                {
+                    this.IsSuccess = false;
+                    this.Error = Errors["Negatives"];
+                }
+                this.Error += $" {number}";
+            }
+            else if (number > MaxValue)
+            {
+                return MinValue;
+            }
+
+            return number;
+        }
+        private int AddIntegersWithDelimiters(string numbers) => numbers.ToLower().Split(Delimiters).Select(int.Parse).Sum(x => GetInteger(x));
         public int Add(string? numbers = "")
         {
-            int result = 0;
+            int result = MinValue;
 
             if (!string.IsNullOrWhiteSpace(numbers))
             {
@@ -41,51 +90,5 @@ namespace StringCalculator
 
             return result;
         }
-        private int GetInteger(int number)
-        {
-            if (number < 0)
-            {
-                if (this.IsSuccess)
-                {
-                    this.IsSuccess = false;
-                    this.Error = Errors["Negatives"];
-                }
-                this.Error += $" {number}";
-            }
-            else if (number > 1000)
-            {
-                return 0;
-            }
-
-            return number;
-        }
-        private int AddIntegersWithDelimiters(string numbers) => numbers.ToLower().Split(Delimiters).Select(int.Parse).Sum(x => GetInteger(x));
-        private bool IsSuccess { get; set; } = true;
-        private string Error { get; set; } = "";
-
-        private char[] _delimiters = new char[] { ',', (char)10 };
-        private char[] Delimiters
-        {
-            get { return _delimiters; }
-            set
-            {
-                _delimiters = value.Select(x =>
-                    {
-                        if (Char.IsDigit(x))
-                        {
-                            throw new Exception();
-                        }
-                        return Char.ToLower(x);
-                    }).ToArray();
-            }
-        }
-        private string DelimitersStart { get; set; } = "//";
-        private string DelimitersEnd { get; set; } = "\n";
-
-        private Dictionary<string, string> Errors = new Dictionary<string, string>
-        {
-            {"Negatives","Negatives not allowed:"},
-            {"Invalid input","Invalid input"},
-        };
     }
 }
