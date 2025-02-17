@@ -2,6 +2,6 @@
 {
     public class Request
     {
-        public string? Numbers { get; set; } = "";
+        public string Numbers { get; set; } = "";
     }
 }

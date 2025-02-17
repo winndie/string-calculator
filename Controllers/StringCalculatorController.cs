@@ -17,11 +17,9 @@ namespace StringCalculator.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Add([FromBody] Request request)
         {
-            StringCalculator calculator = new ();
-
-            try 
+            try
             {
-                return Ok(calculator.Add(request.Numbers));
+                return Ok(new StringCalculator().Add(request.Numbers));
             }
             catch (Exception e)
             {
