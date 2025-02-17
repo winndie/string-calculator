@@ -5,8 +5,9 @@ namespace StringCalculator
     public class StringCalculatorTest
     {
         [Theory]
+        [InlineData(null, 0, null)]
+        [InlineData("", 0, null)]
         [InlineData("0", 0, null)]
-        [InlineData("99", 99, null)]
         [InlineData("1000", 1000, null)]
         [InlineData("1001", 0, null)]
         [InlineData("1,2,3", 6, null)]
